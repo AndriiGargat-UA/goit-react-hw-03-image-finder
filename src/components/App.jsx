@@ -23,9 +23,7 @@ export class App extends Component {
     const prevQuery = prevState.imageName;
     const nextQuery = this.state.imageName;
 
-    if (prevQuery !== nextQuery) {
-      this.setState({ page: 1 });
-    }
+
 
     if (prevQuery !== nextQuery || prevState.page !== this.state.page) {
       this.setState({ isLoading: true });
@@ -47,7 +45,7 @@ export class App extends Component {
   }
 
   handleFormSubmit = imageName => {
-    this.setState({ imageName, images: [] });
+    this.setState({ imageName, images: [], page: 1 });
   };
 
   handleLoad = () => {
@@ -59,9 +57,9 @@ export class App extends Component {
     return (
       <MainContainer>
         <Searchbar onSubmit={this.handleFormSubmit} />
-        <ImageGallery images={images} />
-        {error && <p>{error}</p>}
         {isLoading && <Loader />}
+        {images.length !== 0 &&  <ImageGallery images={images} />}       
+        {error && <p>{error}</p>}       
         {images.length > 11 && <LoadMore onClick={this.handleLoad} />}
         <GlobalStyle />
         <ToastContainer autoClose={2000} />

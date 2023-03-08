@@ -8,6 +8,7 @@ import {
 import { Component } from 'react';
 import { toast } from 'react-toastify';
 import { TbSearch } from 'react-icons/tb'
+import PropTypes from 'prop-types';
 
 export class Searchbar extends Component {
   state = {
@@ -49,4 +50,8 @@ export class Searchbar extends Component {
       </SearchbarContainer>
     );
   }
+}
+
+Searchbar.propTypes = {
+  onSubmit: PropTypes.func.isRequired
 }
