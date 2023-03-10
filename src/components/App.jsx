@@ -23,8 +23,6 @@ export class App extends Component {
     const prevQuery = prevState.imageName;
     const nextQuery = this.state.imageName;
 
-
-
     if (prevQuery !== nextQuery || prevState.page !== this.state.page) {
       this.setState({ isLoading: true });
       try {
@@ -34,13 +32,15 @@ export class App extends Component {
             'Sorry, there are no images matching your search query.'
           );
         } else {
-          return this.setState(({images}) => ({
+          return this.setState(({ images }) => ({
             images: [...images, ...response],
           }));
         }
       } catch (error) {
         this.setState({ error });
-      } finally {this.setState({isLoading: false})}
+      } finally {
+        this.setState({ isLoading: false });
+      }
     }
   }
 
@@ -57,10 +57,12 @@ export class App extends Component {
     return (
       <MainContainer>
         <Searchbar onSubmit={this.handleFormSubmit} />
+        {images.length !== 0 && <ImageGallery images={images} />}
+        {error && <p>{error}</p>}
         {isLoading && <Loader />}
-        {images.length !== 0 &&  <ImageGallery images={images} />}       
-        {error && <p>{error}</p>}       
-        {images.length > 11 && <LoadMore onClick={this.handleLoad} />}
+        {images.length > 11 && !isLoading && (
+          <LoadMore onClick={this.handleLoad} />
+        )}
         <GlobalStyle />
         <ToastContainer autoClose={2000} />
       </MainContainer>
